@@ -1,0 +1,172 @@
+<script id="restaurants-container-template" type="text/x-underscore-template">
+    <div class="restaurant-review">
+        <div class="restaurant-list">
+         <%
+            for (var data in review.features_data) {
+                if (review.features_data.hasOwnProperty(data)) {
+            %>
+                <div class="review-content">
+                    <h3><%=review.features_data[data].name%></h3>
+                    <p>Rating: <b><%=review.features_data[data].avg_rating%></b></p>
+                    <p><span class="fa fa-thumbs-up">
+                        <%=review.features_data[data].negative_count%>
+                    </span></p>
+                    <p><span class="fa fa-thumbs-down">
+                        <%=review.features_data[data].positive_count%>
+                    </span></p>
+                </div>
+            <%}}%>
+        </div>
+        <div class="restaurant-overview">
+            <div class="details">
+                <img src="http://www.itstop10.com/assets/images/paradise.jpg"/>
+                <h2> <%= review.service_data.name %></h2>
+                <div>
+                    <span><%= review.service_data.location %></span>
+                    <span><%= review.service_data.city %></span>
+                </div>
+            </div>
+            <div class="trusted-services">
+                <h2>Trusted Services</h2>
+                <div>
+                    <%
+                    for (var service in review.source_wise_stats) {
+                        if (review.source_wise_stats.hasOwnProperty(service)) {
+                    %>
+                        <div>
+                            <p><a href="<%=review.source_wise_stats[service].url%>">
+                                <%=review.source_wise_stats[service].source_name%>
+                            </a></p>
+                            <span>rating: <%=review.source_wise_stats[service].source_rating%></span>
+                            <span>reviews: <%=review.source_wise_stats[service].source_reviews%></span>
+                            <span>votes: <%=review.source_wise_stats[service].source_votes%></span>
+                        </div>
+                    <%}}%>
+                </div>
+            </div>
+            <div class="reviews">
+                <h2>Reviews</h2>
+                <div class="review-tabs"> 
+                    <ul>
+                        <li><a href="#positive-reviews">Positive</a></li>
+                        <li><a href="#negative-reviews">Negative</a></li>
+                    </ul>
+                    <div id="positive-reviews" class="positive-reviews">
+                        <ol class="carousel-indicators">
+                            <% var i = 0;
+                                for (var positiveReview in review.recent_positive_reviews) {
+                                if (review.recent_positive_reviews.hasOwnProperty(positiveReview)) {
+                            %>
+                                <li data-target="#positive-reviews" data-slide-to="<%=i++%>" class="<%= i === 0 ? 'active' : ''%>"></li>
+                            <% }} %>
+                        </ol>
+                        
+                        <% var i = 0;
+                            for (var positiveReview in review.recent_positive_reviews) {
+                            if (review.recent_positive_reviews.hasOwnProperty(positiveReview)) {
+                                i++;
+                        %>
+                            <div class="review-content carousel-inner">
+                                <div class="item <%=i === 1 ? 'active': ''%>">
+                                    <a href="<%=review.recent_positive_reviews[positiveReview].review_url%>">
+                                        <img class="review-logo" src="<%=review.recent_positive_reviews[positiveReview].source_favicon%>"/>
+                                    </a>
+                                    <span class="review-company"><%=review.recent_positive_reviews[positiveReview].source_name%></span>
+                                    <p><b><%=review.recent_positive_reviews[positiveReview].title%></b></p>
+                                    <p><%=review.recent_positive_reviews[positiveReview].text%></p>
+                                    <p><%=review.recent_positive_reviews[positiveReview].published_at%></p>
+                                </div>
+                            </div>
+                        <%}}%>
+                         <a class="left carousel-control" href="#positive-reviews" role="button" data-slide="prev">
+                            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#positive-reviews" role="button" data-slide="next">
+                            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div id="negative-reviews" class="negative-reviews">
+                        <ol class="carousel-indicators">
+                            <% var i = 0;
+                                for (var negativeReview in review.recent_positive_reviews) {
+                                if (review.recent_positive_reviews.hasOwnProperty(negativeReview)) {
+                            %>
+                                <li data-target="#negative-reviews" data-slide-to="<%=i++%>" class="<%= i === 0 ? 'active' : ''%>"></li>
+                            <% }} %>
+                        </ol>
+                        
+                        <%
+                        var i = 0;
+                        for (var negativeReview in review.recent_negative_reviews) {
+                            if (review.recent_negative_reviews.hasOwnProperty(negativeReview)) {
+                            i++;
+                        %>
+                            <div class="review-content carousel-inner">
+                                <div class="item <%=i === 1 ? 'active': ''%>">
+                                    <a href="<%=review.recent_negative_reviews[negativeReview].review_url%>">
+                                        <img class='review-logo' src="<%=review.recent_negative_reviews[negativeReview].source_favicon%>"/>
+                                    </a>
+                                    
+                                    <p><b><%=review.recent_negative_reviews[negativeReview].title%></b></p>
+                                    <p><%=review.recent_negative_reviews[negativeReview].text%></p>
+                                    <p><%=review.recent_negative_reviews[negativeReview].published_at%></p>
+                                </div>
+                            </div>
+                        <%}}%>
+                         <a class="left carousel-control" href="#negative-reviews" role="button" data-slide="prev">
+                            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#negative-reviews" role="button" data-slide="next">
+                            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+  </ol>
+
+  
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="img_chania.jpg" alt="Chania">
+    </div>
+
+    <div class="item">
+      <img src="img_chania2.jpg" alt="Chania">
+    </div>
+
+    <div class="item">
+      <img src="img_flower.jpg" alt="Flower">
+    </div>
+
+    <div class="item">
+      <img src="img_flower2.jpg" alt="Flower">
+    </div>
+  </div>
+
+  
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+-->
